@@ -367,6 +367,12 @@ class LogoutProcessView(LoginRequiredMixin, IdPHandlerViewMixin, View):
         logger.debug("{} - local identifier: {} from {}".format(self.__service_name, req_info.message.name_id.text, req_info.message.name_id.sp_name_qualifier))
         logger.debug("--- {} SAML request [\n{}] ---".format(self.__service_name, repr_saml(req_info.xmlstr, b64=False)))
 
+        sp = ServiceProvider.objects.filter(entity_id=req_info.message.name_id.sp_name_qualifier).first()
+        destination = sp.logout_urls.get(binding)
+        if destination is None:
+            logger.error("{} - No destination for binding {} in service provider {}".format(self.__service_name, binding, sp.entity_id))
+            return error_cbv.handle_error(request, exception=f"{self.__service_name} - No destination for binding: {binding} in service provider: {sp.entity_id}")
+
         # TODO
         # check SAML request signature
         try:
@@ -374,29 +380,30 @@ class LogoutProcessView(LoginRequiredMixin, IdPHandlerViewMixin, View):
         except ValueError as excp:
             return error_cbv.handle_error(request, exception=excp, status_code=400)
 
-        resp = idp_server.create_logout_response(req_info.message, [binding])
-
-        '''
-        # TODO: SOAP
-        # if binding == BINDING_SOAP:
-            # destination = ""
-            # response = False
-        # else:
-            # binding, destination = IDP.pick_binding(
-                # "single_logout_service", [binding], "spsso", req_info
-            # )
-            # response = True
-        # END TODO SOAP'''
+        resp = idp_server.create_logout_response(
+            req_info.message,
+            bindings=[binding],
+            issuer=req_info.message.issuer,
+            sign_alg=sp.signing_algorithm,
+            digest_alg=sp.digest_algorithm,
+        )
 
         try:
             # hinfo returns request or response, it depends by request arg
-            hinfo = idp_server.apply_binding(binding, resp.__str__(), resp.destination, relay_state, response=True)
+            hinfo = idp_server.apply_binding(
+                binding,
+                resp.__str__(),
+                destination=destination,
+                relay_state=relay_state,
+                response=True,
+                sigalg=sp.signing_algorithm,
+            )
         except Exception as excp:
             logger.error("ServiceError: %s", excp)
             return error_cbv.handle_error(request, exception=excp, status=400)
 
         logger.debug("--- {} Response [\n{}] ---".format(self.__service_name, repr_saml(resp.__str__().encode())))
-        logger.debug("--- binding: {} destination:{} relay_state:{} ---".format(binding, resp.destination, relay_state))
+        logger.debug("--- binding: {} destination:{} relay_state:{} ---".format(binding, destination, relay_state))
 
         # TODO: double check username session and saml login request
         # logout user from IDP
@@ -409,7 +416,7 @@ class LogoutProcessView(LoginRequiredMixin, IdPHandlerViewMixin, View):
                 request,
                 binding=binding,
                 authn_resp=resp.__str__(),
-                destination=resp.destination,
+                destination=destination,
                 relay_state=relay_state)
         return self.render_response(request, html_response, None)
 

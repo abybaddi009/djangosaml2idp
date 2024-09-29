@@ -6,6 +6,7 @@ import os
 from typing import Dict
 
 import pytz
+import xml.etree.ElementTree as ET
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.core.exceptions import ValidationError
@@ -227,6 +228,14 @@ class ServiceProvider(models.Model):
         return filename
 
     @property
+    def logout_urls(self) -> Dict[str, str]:
+        extract_logout_urls = lambda xml_metadata: {
+            slo.get("Binding"): slo.get("Location")
+            for slo in ET.fromstring(xml_metadata).findall(".//{urn:oasis:names:tc:SAML:2.0:metadata}SingleLogoutService")
+        }
+        return extract_logout_urls(self.local_metadata)
+
+    @property
     def sign_response(self) -> bool:
         if self._sign_response is None:
             return getattr(IDP.load().config, "sign_response", False)
@@ -270,6 +279,7 @@ class ServiceProvider(models.Model):
                 'encrypt_saml_responses': self.encrypt_saml_responses,
                 'signing_algorithm': self.signing_algorithm,
                 'digest_algorithm': self.digest_algorithm,
+                'logout_urls': self.logout_urls,
             }
             config_as_str = json.dumps(d, indent=4)
         except Exception as e:
