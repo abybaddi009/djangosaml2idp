@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.7.4] - 2024-09-30
+
+Bugfix release for Logout for the IdP initiated by the SP.
+
 ## [0.7.2] - 2020-04-14
 
 Many thanks for major contributions (especially on the testing front where the project was lacking) from [Amertz08](https://github.com/Amertz08) and [askvortsov1](https://github.com/askvortsov1)

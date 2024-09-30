@@ -5,13 +5,13 @@ from setuptools import setup, find_packages
 from djangosaml2idp import __version__
 
 setup(
-    name='djangosaml2idp',
+    name='djsaml2-idp-app',
     version=__version__,
     description='SAML 2.0 Identity Provider for Django',
     keywords="django,pysaml2,sso,saml2,federated authentication,authentication,idp",
-    author='Mathieu Hinderyckx',
-    author_email='mathieu.hinderyckx@gmail.com',
-    maintainer="Mathieu Hinderyckx",
+    author='Abhishek Baddi',
+    author_email='abybaddi009@gmail.com',
+    maintainer="Abhishek Baddi",
     long_description="\n\n".join([
         open(os.path.join(os.path.dirname(__file__), 'README.rst')).read(),
     ]),
@@ -35,7 +35,7 @@ setup(
     python_requires=">=3.6",
     license='Apache Software License 2.0',
     packages=find_packages(exclude=["tests*", "docs", "example_setup"]),
-    url='https://github.com/OTA-Insight/djangosaml2idp/',
+    url='https://github.com/abybaddi009/djangosaml2idp/',
     zip_safe=False,
     include_package_data=True,
     classifiers=[

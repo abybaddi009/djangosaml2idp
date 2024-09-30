@@ -9,7 +9,7 @@ if "%SPHINXBUILD%" == "" (
 )
 set SOURCEDIR=.
 set BUILDDIR=_build
-set SPHINXPROJ=djangosaml2idp
+set SPHINXPROJ=djsaml2-idp-app
 
 if "%1" == "" goto help
 

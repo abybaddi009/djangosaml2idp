@@ -1,42 +1,10 @@
-djangosaml2idp
+djsaml2-idp-app
 ===============
 
-
-.. image:: https://img.shields.io/pypi/v/djangosaml2idp.svg
-    :scale: 100%
-    :target: https://pypi.python.org/pypi/djangosaml2idp
-    :alt: PyPi
-
-.. image:: https://img.shields.io/pypi/pyversions/djangosaml2idp
-    :scale: 100%
-    :target: https://www.python.org/
-    :alt: PyPI - Python Version
-
-.. image:: https://img.shields.io/pypi/djversions/djangosaml2idp
-    :scale: 100%
-    :target: https://www.djangoproject.com/
-    :alt: PyPI - Django Version
-
-.. image:: https://readthedocs.org/projects/djangosaml2idp/badge/?version=latest
-    :scale: 100%
-    :target: https://djangosaml2idp.readthedocs.io/en/latest/?badge=latest
-    :alt: Documentation Status
-
-.. image:: https://img.shields.io/badge/License-Apache%202.0-blue.svg
-    :scale: 100%
-    :target: https://www.apache.org/licenses/LICENSE-2.0
-    :alt: Apache 2.0 License
-
-.. image:: https://codecov.io/gh/ota-insight/djangosaml2idp/branch/master/graph/badge.svg
-    :scale: 100%
-    :target: https://codecov.io/gh/ota-insight/djangosaml2idp
-    :alt: Code coverage
-
-
-djangosaml2idp implements the Identity Provider side of the SAML2 protocol for Django.
+djsaml2-idpapp implements the Identity Provider side of the SAML2 protocol for Django.
 It builds on top of `PySAML2 <https://github.com/IdentityPython/pysaml2>`_, and is production-ready.
 
-Any contributions, feature requests, proposals, ideas ... are welcome! See the `CONTRIBUTING document <https://github.com/OTA-Insight/djangosaml2idp/blob/master/CONTRIBUTING.md>`_ for some info.
+Any contributions, feature requests, proposals, ideas ... are welcome! See the `CONTRIBUTING document <https://github.com/abybaddi009/djangosaml2idp/blob/master/CONTRIBUTING.md>`_ for some info.
 
 Installation
 ============
@@ -45,9 +13,9 @@ PySAML2 uses `XML Security Library <http://www.aleksey.com/xmlsec/>`_ binary to 
 it either through your operating system package or by compiling the source code. It doesn't matter where the final executable is installed because
 you will need to set the full path to it in the configuration stage. XmlSec is available (at least) for Debian, OSX and Alpine Linux.
 
-Now you can install the djangosaml2idp package using pip. This will also install PySAML2 and its dependencies automatically::
+Now you can install the djsaml2-idp-app package using pip. This will also install PySAML2 and its dependencies automatically::
 
-    pip install djangosaml2idp
+    pip install djsaml2-idp-app
 
 
 Configuration & Usage
@@ -138,7 +106,7 @@ This is a hook to customize some access control checks. By default, the included
 You can customize this behaviour by subclassing the `BaseProcessor` and overriding its `has_access(self, request)` method. This method should return true or false, depending if the user has permission to log in for the SP / IdP.
 The processor has the SP entity ID available as `self._entity_id`, and received the request (with an authenticated request.user on it) as parameter to the `has_access` function.
 This way, you should have the necessary flexibility to perform whatever checks you need.
-An example `processor subclass <https://github.com/OTA-Insight/djangosaml2idp/blob/master/example_setup/idp/idp/processors.py>`_ can be found in the IdP of the included example.
+An example `processor subclass <https://github.com/abybaddi009/djangosaml2idp/blob/master/example_setup/idp/idp/processors.py>`_ can be found in the IdP of the included example.
 Use this metadata xml to configure your SP. Place the metadata xml from that SP in the location specified in the config dict (sp_metadata.xml in the example above).
 
 Without custom setting, users will be identified by the ``USERNAME_FIELD`` property on the user Model you use. By Django defaults this will be the username.

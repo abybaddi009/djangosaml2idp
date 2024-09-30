@@ -1,4 +1,4 @@
-# Contributing to the djangosaml2idp package
+# Contributing to the djsaml2-idp-app package
 
 First of all, thank you for contributing to the project! The more, the merrier.
 

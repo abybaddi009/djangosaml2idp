@@ -4,7 +4,7 @@
 # You can set these variables from the command line.
 SPHINXOPTS    =
 SPHINXBUILD   = sphinx-build
-SPHINXPROJ    = djangosaml2idp
+SPHINXPROJ    = djsaml2-idp-app
 SOURCEDIR     = .
 BUILDDIR      = _build
 

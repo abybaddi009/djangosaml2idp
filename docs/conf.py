@@ -51,8 +51,8 @@ master_doc = 'index'
 
 # General information about the project.
 project = 'djangosaml2idp'
-copyright = '2018, Mathieu Hinderyckx'
-author = 'Mathieu Hinderyckx'
+copyright = '2024, Abhishek Baddi'
+author = 'Abhishek Baddi'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -133,7 +133,7 @@ latex_elements = {
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
     (master_doc, 'djangosaml2idp.tex', 'djangosaml2idp Documentation',
-     'Mathieu Hinderyckx', 'manual'),
+     'Abhishek Baddi', 'manual'),
 ]
 
 
